@@ -1,0 +1,106 @@
+name: rvm_cmake
+version: 2.0.1
+inherits: wercker/rvm@2.0.1
+type: main
+platform: ubuntu@12.04
+packages:
+    - ruby@1.9.3-p484
+    - ruby@1.9.3-p545
+    - ruby@2.0.0-p353
+    - ruby@2.0.0-p451
+    - ruby@2.0.0-p481
+    - ruby@2.1.0
+    - ruby@2.1.1
+    - ruby@2.1.2
+keywords:
+    - ruby
+    - rvm
+    - cmake
+    - packer
+script: |
+    sudo apt-get update -y
+    sudo apt-get install -y build-essential cmake unzip
+    cd /tmp ; wget https://dl.bintray.com/mitchellh/packer/0.6.1_linux_amd64.zip ; unzip 0.6.1_linux_amd64.zip
+    sudo chown root:root /tmp/packer*
+    sudo chmod a+rx /tmp/packer*
+    sudo mv /tmp/packer* /usr/bin/
+    sudo rm -f /tmp/0.6.1_linux_amd64.zip /tmp/packer*
+
+box-detect:
+    priority: 200
+    version:
+    detect:
+        - files:
+            - Gemfile
+
+default-build:
+    ruby-on-rails:
+        priority: 100
+        detect:
+            - files:
+                - config
+        text-to-append: |-
+            # Build definition
+            # See the Rails section on the wercker devcenter:
+            # http://devcenter.wercker.com/articles/languages/ruby/settingup-rails4.html
+            # You will want to define your database as follows:
+            # services:
+            #   - wercker/postgresql
+            # See more about services on our devcenter:
+            # http://devcenter.wercker.com/articles/services/
+            build:
+                steps:
+                    # Uncomment this to force RVM to use a specific Ruby version
+                    # - rvm-use:
+                    #       version: 2.1.0
+
+                    # A step that executes `bundle install` command
+                    - bundle-install
+
+                    # A step that prepares the database.yml using the database in services
+                    # - rails-database-yml
+
+                    # A custom script step, name value is used in the UI
+                    # and the code value contains the command that get executed
+                    - script:
+                        name: echo ruby information
+                        code: |
+                            echo "ruby version $(ruby --version) running"
+                            echo "from location $(which ruby)"
+                            echo -p "gem list: $(gem list)"
+
+                    # Add more steps here:
+                    # - script:
+                    #        name: rspec
+                    #        code: bundle exec rspec
+    ruby:
+        priority : 50
+        detect:
+            - default: true
+        text-to-append: |-
+            # Build definition
+            build:
+                # The steps that will be executed on build
+                # See the Ruby section on the wercker devcenter:
+                # http://devcenter.wercker.com/articles/languages/ruby.html
+                steps:
+                    # Uncomment this to force RVM to use a specific Ruby version
+                    # - rvm-use:
+                    #       version: 2.1.0
+
+                    # A step that executes `bundle install` command
+                    - bundle-install
+
+                    # A custom script step, name value is used in the UI
+                    # and the code value contains the command that get executed
+                    - script:
+                        name: echo ruby information
+                        code: |
+                            echo "ruby version $(ruby --version) running"
+                            echo "from location $(which ruby)"
+                            echo -p "gem list: $(gem list)"
+
+                    # Add more steps here:
+                    # - script:
+                    #    name: rspec
+                    #    code: bundle exec rspec
