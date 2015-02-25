@@ -26,7 +26,7 @@ script: |
     sudo pip install awscli
     cd /tmp ; wget https://dl.bintray.com/mitchellh/packer/packer_0.7.5_linux_amd64.zip ; unzip packer_0.7.5_linux_amd64.zip
     cd /tmp ; wget http://stedolan.github.io/jq/download/linux64/jq
-    sudo install -g root -o root -m 0755 /tmp/packer* /tmp/jq /usr/bin/jq
+    sudo install -t /usr/bin -g root -o root -m 0755/tmp/packer* /tmp/jq
     sudo rm -f /tmp/0.6.1_linux_amd64.zip /tmp/packer* /tmp/jq
 
 box-detect:
