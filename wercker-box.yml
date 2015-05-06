@@ -1,11 +1,10 @@
 name: rvm_cmake
-version: 2.0.4
+version: 2.0.5
 inherits: wercker/rvm@2.0.1
 type: main
 platform: ubuntu@12.04
 packages:
-    - ruby@1.9.3-p484
-    - ruby@1.9.3-p545
+    - ruby@1.9.3-p551
     - ruby@2.0.0-p353
     - ruby@2.0.0-p451
     - ruby@2.0.0-p481
