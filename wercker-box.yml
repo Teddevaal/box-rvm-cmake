@@ -1,5 +1,5 @@
 name: rvm_cmake
-version: 2.0.7
+version: 2.0.8
 inherits: wercker/rvm@2.0.1
 type: main
 platform: ubuntu@12.04
@@ -55,8 +55,8 @@ default-build:
             build:
                 steps:
                     # Uncomment this to force RVM to use a specific Ruby version
-                    # - rvm-use:
-                    #       version: 2.1.0
+                    - rvm-use:
+                          version: 2.2.3
 
                     # A step that executes `bundle install` command
                     - bundle-install
@@ -89,8 +89,8 @@ default-build:
                 # http://devcenter.wercker.com/articles/languages/ruby.html
                 steps:
                     # Uncomment this to force RVM to use a specific Ruby version
-                    # - rvm-use:
-                    #       version: 2.1.0
+                    - rvm-use:
+                          version: 2.2.3
 
                     # A step that executes `bundle install` command
                     - bundle-install
